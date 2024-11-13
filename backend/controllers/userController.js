@@ -27,8 +27,12 @@ const loginUser = async (req, res) => {
 			res.json({ success: false, message: 'Invalid credentials' })
 		}
 	} catch (error) {
-		console.log(error)
-		res.json({ success: false, message: error.message })
+		console.log('Error during login:', error)
+		res.json({
+			success: false,
+			message: 'An error occurred during login',
+			error: error.message,
+		})
 	}
 }
 
@@ -37,7 +41,7 @@ const registerUser = async (req, res) => {
 	try {
 		const { name, email, password } = req.body
 
-		// checking user already exists or not
+		// checking if user already exists or not
 		const exists = await userModel.findOne({ email })
 		if (exists) {
 			return res.json({ success: false, message: 'User already exists' })
@@ -70,8 +74,12 @@ const registerUser = async (req, res) => {
 
 		res.json({ success: true, token })
 	} catch (error) {
-		console.log(error)
-		res.json({ success: false, message: error.message })
+		console.log('Error during registration:', error)
+		res.json({
+			success: false,
+			message: 'An error occurred during registration',
+			error: error.message,
+		})
 	}
 }
 
@@ -90,8 +98,12 @@ const adminLogin = async (req, res) => {
 			res.json({ success: false, message: 'Invalid credentials' })
 		}
 	} catch (error) {
-		console.log(error)
-		res.json({ success: false, message: error.message })
+		console.log('Error during admin login:', error)
+		res.json({
+			success: false,
+			message: 'An error occurred during admin login',
+			error: error.message,
+		})
 	}
 }
 
