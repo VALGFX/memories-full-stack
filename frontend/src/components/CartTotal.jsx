@@ -15,8 +15,8 @@ const CartTotal = ({ discount }) => {
 					const product = products.find(product => product._id === item)
 					if (product) {
 						let price = product.price
-						if (size === 'S') price *= 0.6
-						else if (size === 'L') price *= 2
+						if (size === '30ml') price *= 0.6
+						else if (size === '100ml') price *= 2
 						totalAmount += price * quantity
 					}
 				}
