@@ -12,15 +12,32 @@ import userRouter from './routes/userRoute.js'
 const app = express()
 const port = process.env.PORT || 4000
 
-// Conectează-te la MongoDB și Cloudinary
+// Connect to MongoDB and Cloudinary
 connectDB()
 connectCloudinary()
 
-// Middlewares
-app.use(express.json())
-app.use(cors())
+// CORS Configuration
+const allowedOrigins = [
+	'https://fe-memories-srl.vercel.app', // Frontend
+	'https://fe-memories-srl-admin.vercel.app', // Admin panel
+]
 
-// API endpoints
+const corsOptions = {
+	origin: function (origin, callback) {
+		if (!origin || allowedOrigins.includes(origin)) {
+			callback(null, true)
+		} else {
+			callback(new Error('Not allowed by CORS'))
+		}
+	},
+	credentials: true, // Allow cookies if needed
+}
+
+// middlewares
+app.use(express.json())
+app.use(cors(corsOptions))
+
+// api endpoints
 app.use('/api/user', userRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
@@ -31,5 +48,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log('Server started on PORT : ' + port)
+	console.log(`Server started on PORT : ${port}`)
 })
