@@ -22,31 +22,35 @@ const allowedOrigins = [
 	'https://fe-memories-srl-admin.vercel.app', // Admin panel
 ]
 
+// Set CORS options
 const corsOptions = {
-	origin: function (origin, callback) {
+	origin: (origin, callback) => {
 		if (!origin || allowedOrigins.includes(origin)) {
-			callback(null, true)
+			callback(null, true) // Allow the request
 		} else {
-			callback(new Error('Not allowed by CORS'))
+			callback(new Error('Not allowed by CORS')) // Reject the request
 		}
 	},
 	credentials: true, // Allow cookies if needed
+	methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
 }
 
-// middlewares
+// Middlewares
 app.use(express.json())
 app.use(cors(corsOptions))
 
-// api endpoints
+// API endpoints
 app.use('/api/user', userRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
 
+// Basic route for testing if the server is running
 app.get('/', (req, res) => {
 	res.send('API Working')
 })
 
+// Start the server
 app.listen(port, () => {
 	console.log(`Server started on PORT : ${port}`)
 })
