@@ -1,4 +1,5 @@
-import bcrypt from 'bcryptjs' // schimbat de la 'bcrypt'
+import bcrypt from 'bcryptjs' // Correct import for bcryptjs
+
 import jwt from 'jsonwebtoken'
 import validator from 'validator'
 import userModel from '../models/userModel.js'
