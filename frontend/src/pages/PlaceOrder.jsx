@@ -42,7 +42,7 @@ const PlaceOrder = () => {
 
 	const validatePromoCode = () => {
 		// Exemplu de cod promoțional fix
-		const validPromoCodes = { Shop: 5}
+		const validPromoCodes = { Shop5: 5}
 		if (validPromoCodes[promoCode]) {
 			setDiscount(validPromoCodes[promoCode])
 			toast.success(
