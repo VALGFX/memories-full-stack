@@ -27,12 +27,22 @@ const Orders = () => {
 						item['payment'] = order.payment
 						item['paymentMethod'] = order.paymentMethod
 						item['date'] = order.date
+
+						// Adjust the price based on size
+						if (item.size === '30ml') {
+							item.price *= 0.6
+						} else if (item.size === '100ml') {
+							item.price *= 2
+						}
+
 						allOrdersItem.push(item)
 					})
 				})
 				setorderData(allOrdersItem.reverse())
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.error('Failed to load orders:', error)
+		}
 	}
 
 	useEffect(() => {
@@ -58,7 +68,7 @@ const Orders = () => {
 								<div className='flex items-center gap-3 mt-1 text-base text-gray-700'>
 									<p>
 										{currency}
-										{item.price}
+										{item.price.toFixed(2)}
 									</p>
 									<p>Quantity: {item.quantity}</p>
 									<p>Size: {item.size}</p>
