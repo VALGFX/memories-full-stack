@@ -5,12 +5,6 @@ import PromotionCard from '../components/PromotionCard'
 const PromotionsList = () => {
 	const promotions = [
 		{
-			id: 1,
-			name: ' STUDENT & ÎNCREDERE',
-			endDate: new Date('2024-11-18T00:00:00'),
-			image: assets.student_img,
-		},
-		{
 			id: 2,
 			name: 'Black Friday - Reduceri de până la 50%!',
 			endDate: new Date('2024-11-29T00:00:00'),
