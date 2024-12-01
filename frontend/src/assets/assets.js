@@ -18,6 +18,7 @@ import star_icon from './star_icon.png'
 import stripe_logo from './stripe_logo.png'
 import student_img from './student_img.jpg'
 import support_img from './support_img.png'
+import christmas_img from './christmas_img.png'
 
 // Import product images
 import p_img1 from './p_img1.png'
@@ -59,6 +60,7 @@ export const assets = {
 	stripe_logo,
 	cross_icon,
 	student_img,
+	christmas_img,
 }
 
 export const products = [
