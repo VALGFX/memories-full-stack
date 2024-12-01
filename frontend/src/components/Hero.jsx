@@ -27,7 +27,7 @@ const Hero = () => {
 			</div>
 			{/* Secțiunea din dreapta */}
 			<img
-				src={assets.hero_img}
+				src={assets.christmas_img}
 				className='w-full sm:w-1/2 object-cover'
 				alt='Imagine promoțională Pour Femme'
 			/>
