@@ -25,7 +25,7 @@ const ProductCard = ({ id, name, image, price, description }) => {
                 </p>
                 <div className="mt-6 flex justify-between items-center">
                     <span className="text-xl font-bold text-rose-600">
-                        {price.toFixed(2)} RON
+                        {price.toFixed(2)} MDL
                     </span>
                     <button className="bg-rose-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-rose-600 transition-colors duration-300">
                         Cumpără
