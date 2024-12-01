@@ -6,9 +6,9 @@ const PromotionsList = () => {
 	const promotions = [
 		{
 			id: 2,
-			name: 'Black Friday - Reduceri de până la 50%!',
-			endDate: new Date('2024-11-29T00:00:00'),
-			image: assets.hero_img,
+			name: 'MERRY CHRISTMAS',
+			endDate: new Date('2024-12-20T00:00:00'),
+			image: assets.christmas_img,
 		},
 	]
 
