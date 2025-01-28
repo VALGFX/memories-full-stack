@@ -3,23 +3,19 @@ import { assets } from '../assets/assets'
 import PromotionCard from '../components/PromotionCard'
 
 const PromotionsList = () => {
-	const promotions = [
-		{
-			{/* Asigurăm o coloană per rând *
-			id: 2,
-			name: 'MERRY CHRISTMAS',
-			endDate: new Date('2024-12-20T00:00:00'),
-			image: assets.christmas_img,*/}
-		},
-	]
+	// Lista de promoții este goală momentan
+	const promotions = []
 
 	return (
 		<div className='grid gap-8 grid-cols-1'>
-			{' '}
-			{/* Asigurăm o coloană per rând */}
-			{promotions.map(promotion => (
-				<PromotionCard key={promotion.id} promotion={promotion} />
-			))}
+			{/* Dacă nu există promoții, afișăm un mesaj */}
+			{promotions.length === 0 ? (
+				<p className='text-center text-gray-500'>Momentan nu sunt promoții disponibile.</p>
+			) : (
+				promotions.map(promotion => (
+					<PromotionCard key={promotion.id} promotion={promotion} />
+				))
+			)}
 		</div>
 	)
 }
