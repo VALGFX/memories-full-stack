@@ -5,10 +5,11 @@ import PromotionCard from '../components/PromotionCard'
 const PromotionsList = () => {
 	const promotions = [
 		{
+			{/* Asigurăm o coloană per rând *
 			id: 2,
 			name: 'MERRY CHRISTMAS',
 			endDate: new Date('2024-12-20T00:00:00'),
-			image: assets.christmas_img,
+			image: assets.christmas_img,*/}
 		},
 	]
 
