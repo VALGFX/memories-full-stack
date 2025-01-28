@@ -4,7 +4,7 @@ import PromotionsList from '../components/PromotionsList' // Importă lista prom
 const Promotions = () => {
 	return (
 		<div className='promotions-page min-h-screen  p-8'>
-			/* <PromotionsList /> {/* Afișează lista promoțiilor */} */
+			<PromotionsList /> {/* Afișează lista promoțiilor */}
 		</div>
 	)
 }
