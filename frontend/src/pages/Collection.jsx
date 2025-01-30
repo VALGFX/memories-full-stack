@@ -118,7 +118,7 @@ const Collection = () => {
                     <Title text1={'TOATĂ'} text2={'COLECȚIA'} />
                     {/* Sortare */}
                     <select onChange={e => setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
-                        <option value="relevant">📌 ┃ Sortați după ...</option>
+                        <option">📌 ┃ Sortați după ...</option>
                         <option value="relevant">🆕 ┃ Cele mai noi</option>
                         <option value="low-high">📈 ┃ Preț: Crescător</option>
                         <option value="high-low">📉 ┃ Preț: Descrescător</option>
