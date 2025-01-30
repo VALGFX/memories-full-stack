@@ -37,7 +37,10 @@ const Collection = () => {
             case 'high-low':
                 sortedProducts.sort((a, b) => b.price - a.price);
                 break;
-            case 'relevant': // Caz implicit pentru relevanță
+            case 'newest': // Sortare după cele mai noi produse
+                sortedProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                break;
+            case 'relevant': 
             default:
                 return products;
         }
@@ -118,8 +121,8 @@ const Collection = () => {
                     <Title text1={'TOATĂ'} text2={'COLECȚIA'} />
                     {/* Sortare */}
                     <select onChange={e => setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
-                        <option">📌 ┃ Sortați după ...</option>
-                        <option value="relevant">🆕 ┃ Cele mai noi</option>
+                        <option value="relevant">📌 ┃ Sortați după ...</option>
+                        <option value="newest">🆕 ┃ Cele mai noi</option>
                         <option value="low-high">📈 ┃ Preț: Crescător</option>
                         <option value="high-low">📉 ┃ Preț: Descrescător</option>
                         <option value="relevant">⭐ ┃ Cele mai apreciate</option>
@@ -129,7 +132,13 @@ const Collection = () => {
                 {/* Afișare produse */}
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
                     {filterProducts.map((item, index) => (
-                        <ProductItem key={index} name={item.name} id={item._id} price={item.price} image={item.image} />
+                        <ProductItem 
+                            key={index} 
+                            name={item.name} 
+                            id={item._id} 
+                            price={item.price} 
+                            image={item.image} 
+                        />
                     ))}
                 </div>
             </div>
