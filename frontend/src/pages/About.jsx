@@ -49,7 +49,7 @@ const About = () => {
 					<b>Personal Prietenos:</b>
 					<p className=' text-gray-600'>
 						Echipa noastră amabilă și profesionistă este dedicată satisfacerii
-						nevoilor tale. Oferim servicii de calitate, promptitudine și o
+						nevoilor tale. Oferim servicii de calitate,o
 						experiență plăcută, asigurându-ne că fiecare client se simte
 						apreciat.
 					</p>
@@ -65,7 +65,7 @@ const About = () => {
 				<div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5'>
 					<b>Garanţie:</b>
 					<p className=' text-gray-600'>
-						Uită de orice fel de îngrijire! Va oferi certificat de garanție
+						Uită de orice fel de îngrijire! Oferim certificat de garanție
 						pentru toate produsele pe care le avem în magazinul nostru!
 					</p>
 				</div>
