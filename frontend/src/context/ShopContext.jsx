@@ -14,8 +14,10 @@ const ShopContextProvider = props => {
 	const [cartItems, setCartItems] = useState({})
 	const [products, setProducts] = useState([])
 	const [token, setToken] = useState('')
+	const [sortBy, setSortBy] = useState('newest') // default sort by 'newest'
 	const navigate = useNavigate()
 
+	// Functia pentru a adăuga produse în coș
 	const addToCart = async (itemId, size) => {
 		if (!size) {
 			toast.error('Select Product Size')
@@ -50,6 +52,7 @@ const ShopContextProvider = props => {
 		}
 	}
 
+	// Funcția pentru a obține numărul total de produse din coș
 	const getCartCount = () => {
 		let totalCount = 0
 		for (const items in cartItems) {
@@ -64,6 +67,7 @@ const ShopContextProvider = props => {
 		return totalCount
 	}
 
+	// Funcția pentru a actualiza cantitatea unui produs în coș
 	const updateQuantity = async (itemId, size, quantity) => {
 		let cartData = structuredClone(cartItems)
 
@@ -85,6 +89,7 @@ const ShopContextProvider = props => {
 		}
 	}
 
+	// Funcția pentru a obține suma totală a produselor din coș
 	const getCartAmount = () => {
 		let totalAmount = 0
 		for (const items in cartItems) {
@@ -100,11 +105,22 @@ const ShopContextProvider = props => {
 		return totalAmount
 	}
 
-	const getProductsData = async () => {
+	// Funcția pentru a obține datele produselor, cu sortare
+	const getProductsData = async (sortBy) => {
 		try {
 			const response = await axios.get(backendUrl + '/api/product/list')
 			if (response.data.success) {
-				setProducts(response.data.products.reverse())
+				let sortedProducts = response.data.products.reverse()
+
+				if (sortBy === 'newest') {
+					// Sortare după data de adăugare (presupunând că ai un câmp 'createdAt')
+					sortedProducts = response.data.products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+				} else if (sortBy === 'popular') {
+					// Sortare după popularitate (presupunând că ai un câmp 'popularity')
+					sortedProducts = response.data.products.sort((a, b) => b.popularity - a.popularity)
+				}
+
+				setProducts(sortedProducts)
 			} else {
 				toast.error(response.data.message)
 			}
@@ -114,6 +130,7 @@ const ShopContextProvider = props => {
 		}
 	}
 
+	// Funcția pentru a obține coșul utilizatorului
 	const getUserCart = async token => {
 		try {
 			const response = await axios.post(
@@ -131,8 +148,8 @@ const ShopContextProvider = props => {
 	}
 
 	useEffect(() => {
-		getProductsData()
-	}, [])
+		getProductsData(sortBy) // Apelează funcția cu tipul de sortare curent
+	}, [sortBy]) // Reîncarcă produsele atunci când schimbăm tipul de sortare
 
 	useEffect(() => {
 		if (!token && localStorage.getItem('token')) {
@@ -162,10 +179,13 @@ const ShopContextProvider = props => {
 		backendUrl,
 		setToken,
 		token,
+		setSortBy, // Adăugat pentru a putea schimba tipul de sortare
 	}
 
 	return (
-		<ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>
+		<ShopContext.Provider value={value}>
+			{props.children}
+		</ShopContext.Provider>
 	)
 }
 
