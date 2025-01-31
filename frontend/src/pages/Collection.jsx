@@ -26,23 +26,29 @@ const Collection = () => {
         );
     };
 
-    // 🔥 Funcție pentru sortare
-    const sortProducts = (products, type) => {
-        let sorted = [...products];
+ // Funcție pentru sortare produse
+const sortProducts = (products, type) => {
+  let sorted = [...products];
 
-        switch (type) {
-            case 'low-high':
-                return sorted.sort((a, b) => a.price - b.price);
-            case 'high-low':
-                return sorted.sort((a, b) => b.price - a.price);
-            case 'newest':
-                return sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            case 'popular':
-                return sorted.sort((a, b) => b.popularity - a.popularity);
-            default:
-                return products;
-        }
-    };
+  switch (type) {
+    case 'low-high':
+      return sorted.sort((a, b) => a.price - b.price);
+    case 'high-low':
+      return sorted.sort((a, b) => b.price - a.price);
+    case 'newest':
+      return sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    case 'popular':
+      return sorted.sort((a, b) => b.popularity - a.popularity);
+    default:
+      return products;
+  }
+};
+
+// Aplicarea sortării când schimbăm tipul de sortare
+useEffect(() => {
+  setFilteredProducts(prev => sortProducts(prev, sortType));
+}, [sortType]);
+
 
     // 🔥 Funcție pentru aplicarea filtrelor
     const applyFilter = () => {
