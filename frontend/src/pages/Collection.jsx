@@ -12,7 +12,6 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState('newest');
 
-  // 🔥 Funcție de toggling pentru categorii
   const toggleCategory = (e) => {
     setCategory((prev) =>
       prev.includes(e.target.value)
@@ -21,7 +20,6 @@ const Collection = () => {
     );
   };
 
-  // 🔥 Funcție de toggling pentru subcategorii
   const toggleSubCategory = (e) => {
     setSubCategory((prev) =>
       prev.includes(e.target.value)
@@ -30,7 +28,6 @@ const Collection = () => {
     );
   };
 
-  // 🔥 Funcție pentru sortare
   const sortProducts = (products, type) => {
     let sorted = [...products];
 
@@ -48,7 +45,6 @@ const Collection = () => {
     }
   };
 
-  // 🔥 Funcție pentru aplicarea filtrelor
   const applyFilter = () => {
     let filtered = [...products];
 
@@ -66,33 +62,25 @@ const Collection = () => {
       filtered = filtered.filter((item) => subCategory.includes(item.subCategory));
     }
 
-    // Aplicăm sortarea după filtrare
     setFilteredProducts(sortProducts(filtered, sortType));
   };
 
-  // 🔥 Reactualizăm lista de produse filtrate la modificarea filtrelor
   useEffect(() => {
     applyFilter();
   }, [category, subCategory, search, showSearch, products]);
 
-  // 🔥 Aplicăm sortarea la schimbarea tipului de sortare
   useEffect(() => {
     setFilteredProducts((prev) => sortProducts(prev, sortType));
   }, [sortType]);
 
   return (
     <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
-      {/* 🔹 Filtre */}
       <div className='min-w-60'>
-        <p
-          onClick={() => setShowFilter(!showFilter)}
-          className='my-2 text-xl flex items-center cursor-pointer gap-2'
-        >
+        <p onClick={() => setShowFilter(!showFilter)} className='my-2 text-xl flex items-center cursor-pointer gap-2'>
           FILTRE
           <img className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`} src={assets.dropdown_icon} alt='' />
         </p>
 
-        {/* 🔹 Filtrare după categorie */}
         <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}>
           <p className='mb-3 text-sm font-medium'>CATEGORII</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
@@ -104,7 +92,6 @@ const Collection = () => {
           </div>
         </div>
 
-        {/* 🔹 Filtrare după subcategorie */}
         <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
           <p className='mb-3 text-sm font-medium'>TIPUL</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
@@ -117,15 +104,10 @@ const Collection = () => {
         </div>
       </div>
 
-      {/* 🔹 Lista de produse */}
       <div className='flex-1'>
         <div className='flex justify-between'>
           <Title>Produse</Title>
-          <select
-            className='h-10 border'
-            value={sortType}
-            onChange={(e) => setSortType(e.target.value)}
-          >
+          <select className='h-10 border' value={sortType} onChange={(e) => setSortType(e.target.value)}>
             <option value='newest'>Cele mai noi</option>
             <option value='popular'>Populare</option>
             <option value='low-high'>Preț mic - mare</option>
