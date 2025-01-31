@@ -5,11 +5,12 @@ import Title from '../components/Title';
 import { ShopContext } from '../context/ShopContext';
 
 const Collection = () => {
-    const { products, search, showSearch, setSortBy } = useContext(ShopContext);
+    const { products, search, showSearch } = useContext(ShopContext);
     const [showFilter, setShowFilter] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [category, setCategory] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
+    const [sortType, setSortType] = useState('newest');
 
     // 🔥 Funcție de toggling pentru categorii
     const toggleCategory = e => {
@@ -23,6 +24,24 @@ const Collection = () => {
         setSubCategory(prev =>
             prev.includes(e.target.value) ? prev.filter(item => item !== e.target.value) : [...prev, e.target.value]
         );
+    };
+
+    // 🔥 Funcție pentru sortare
+    const sortProducts = (products, type) => {
+        let sorted = [...products];
+
+        switch (type) {
+            case 'low-high':
+                return sorted.sort((a, b) => a.price - b.price);
+            case 'high-low':
+                return sorted.sort((a, b) => b.price - a.price);
+            case 'newest':
+                return sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            case 'popular':
+                return sorted.sort((a, b) => b.popularity - a.popularity);
+            default:
+                return products;
+        }
     };
 
     // 🔥 Funcție pentru aplicarea filtrelor
@@ -43,7 +62,8 @@ const Collection = () => {
             filtered = filtered.filter(item => subCategory.includes(item.subCategory));
         }
 
-        setFilteredProducts(filtered);
+        // Aplicăm sortarea după filtrare
+        setFilteredProducts(sortProducts(filtered, sortType));
     };
 
     // 🔥 Reactualizăm lista de produse filtrate la modificarea filtrelor
@@ -53,8 +73,8 @@ const Collection = () => {
 
     // 🔥 Aplicăm sortarea la schimbarea tipului de sortare
     useEffect(() => {
-        applyFilter();
-    }, [products]);
+        setFilteredProducts(prev => sortProducts(prev, sortType));
+    }, [sortType]);
 
     return (
         <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
@@ -98,10 +118,7 @@ const Collection = () => {
                 <div className='flex justify-between text-base sm:text-2xl mb-4'>
                     <Title text1={'TOATĂ'} text2={'COLECȚIA'} />
                     {/* 🔹 Sortare */}
-                    <select 
-                        onChange={e => setSortBy(e.target.value)} 
-                        className='border-2 border-gray-300 text-sm px-2'
-                    >
+                    <select onChange={e => setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
                         <option value="newest">🆕 ┃ Cele mai noi</option>
                         <option value="popular">🔥 ┃ Cele mai populare</option>
                         <option value="low-high">📈 ┃ Preț: Crescător</option>
