@@ -106,29 +106,37 @@ const ShopContextProvider = props => {
 	}
 
 	// Funcția pentru a obține datele produselor, cu sortare
-	const getProductsData = async (sortBy) => {
-		try {
-			const response = await axios.get(backendUrl + '/api/product/list')
-			if (response.data.success) {
-				let sortedProducts = response.data.products.reverse()
+const getProductsData = async (sortBy) => {
+  try {
+    const response = await axios.get(backendUrl + '/api/product/list');
+    if (response.data.success) {
+      let sortedProducts = response.data.products.reverse(); // Sortare implicită
 
-				if (sortBy === 'newest') {
-					// Sortare după data de adăugare (presupunând că ai un câmp 'createdAt')
-					sortedProducts = response.data.products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-				} else if (sortBy === 'popular') {
-					// Sortare după popularitate (presupunând că ai un câmp 'popularity')
-					sortedProducts = response.data.products.sort((a, b) => b.popularity - a.popularity)
-				}
+      // Sortare după 'newest' (data lansării)
+      if (sortBy === 'newest') {
+        sortedProducts = response.data.products.sort((a, b) => {
+          // Asigură-te că 'createdAt' este un string valid ISO
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+      }
+      
+      // Sortare după 'popular' (popularitate)
+      else if (sortBy === 'popular') {
+        sortedProducts = response.data.products.sort((a, b) => {
+          // Asigură-te că 'popularity' este un număr valid
+          return b.popularity - a.popularity;
+        });
+      }
 
-				setProducts(sortedProducts)
-			} else {
-				toast.error(response.data.message)
-			}
-		} catch (error) {
-			console.log(error)
-			toast.error(error.message)
-		}
-	}
+      setProducts(sortedProducts);
+    } else {
+      toast.error(response.data.message);
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
+}
 
 	// Funcția pentru a obține coșul utilizatorului
 	const getUserCart = async token => {
