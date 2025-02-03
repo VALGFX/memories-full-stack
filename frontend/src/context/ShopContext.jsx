@@ -14,10 +14,10 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState('');
-  const [sortBy, setSortBy] = useState('newest'); // default sort by 'newest'
+  const [sortBy, setSortBy] = useState('newest'); // Default sort by 'newest'
   const navigate = useNavigate();
 
-  // Functia pentru a adăuga produse în coș
+  // Funcția pentru a adăuga produse în coș
   const addToCart = async (itemId, size) => {
     if (!size) {
       toast.error('Select Product Size');
@@ -52,59 +52,6 @@ const ShopContextProvider = (props) => {
     }
   };
 
-  // Funcția pentru a obține numărul total de produse din coș
-  const getCartCount = () => {
-    let totalCount = 0;
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        try {
-          if (cartItems[items][item] > 0) {
-            totalCount += cartItems[items][item];
-          }
-        } catch (error) {}
-      }
-    }
-    return totalCount;
-  };
-
-  // Funcția pentru a actualiza cantitatea unui produs în coș
-  const updateQuantity = async (itemId, size, quantity) => {
-    let cartData = structuredClone(cartItems);
-
-    cartData[itemId][size] = quantity;
-
-    setCartItems(cartData);
-
-    if (token) {
-      try {
-        await axios.post(
-          backendUrl + '/api/cart/update',
-          { itemId, size, quantity },
-          { headers: { token } }
-        );
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-      }
-    }
-  };
-
-  // Funcția pentru a obține suma totală a produselor din coș
-  const getCartAmount = () => {
-    let totalAmount = 0;
-    for (const items in cartItems) {
-      let itemInfo = products.find((product) => product._id === items);
-      for (const item in cartItems[items]) {
-        try {
-          if (cartItems[items][item] > 0) {
-            totalAmount += itemInfo.price * cartItems[items][item];
-          }
-        } catch (error) {}
-      }
-    }
-    return totalAmount;
-  };
-
   // Funcția pentru a obține datele produselor, cu sortare
   const getProductsData = async (sortBy) => {
     try {
@@ -112,18 +59,21 @@ const ShopContextProvider = (props) => {
       if (response.data.success) {
         let sortedProducts = response.data.products;
 
-        // Sortare după data de adăugare
-        if (sortBy === 'newest') {
-          sortedProducts = sortedProducts.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
-        }
-
-        // Sortare după popularitate
-        else if (sortBy === 'popular') {
-          sortedProducts = sortedProducts.sort(
-            (a, b) => b.popularity - a.popularity
-          );
+        switch (sortBy) {
+          case 'newest':
+            sortedProducts.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+            break;
+          case 'popular':
+            sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+            break;
+          case 'low-high':
+            sortedProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+            break;
+          case 'high-low':
+            sortedProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+            break;
+          default:
+            break;
         }
 
         setProducts(sortedProducts);
@@ -136,31 +86,13 @@ const ShopContextProvider = (props) => {
     }
   };
 
-  // Funcția pentru a obține coșul utilizatorului
-  const getUserCart = async (token) => {
-    try {
-      const response = await axios.post(
-        backendUrl + '/api/cart/get',
-        {},
-        { headers: { token } }
-      );
-      if (response.data.success) {
-        setCartItems(response.data.cartData);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    getProductsData(sortBy); // Apelează funcția cu tipul de sortare curent
-  }, [sortBy]); // Reîncarcă produsele atunci când schimbăm tipul de sortare
+    getProductsData(sortBy); // Reîncarcă produsele când schimbăm tipul de sortare
+  }, [sortBy]);
 
   useEffect(() => {
     if (!token && localStorage.getItem('token')) {
       setToken(localStorage.getItem('token'));
-      getUserCart(localStorage.getItem('token'));
     }
     if (token) {
       getUserCart(token);
@@ -178,9 +110,6 @@ const ShopContextProvider = (props) => {
     cartItems,
     addToCart,
     setCartItems,
-    getCartCount,
-    updateQuantity,
-    getCartAmount,
     navigate,
     backendUrl,
     setToken,
@@ -196,4 +125,3 @@ const ShopContextProvider = (props) => {
 };
 
 export default ShopContextProvider;
-
