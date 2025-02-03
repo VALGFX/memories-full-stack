@@ -5,12 +5,11 @@ import Title from '../components/Title';
 import { ShopContext } from '../context/ShopContext';
 
 const Collection = () => {
-    const { products, search, showSearch } = useContext(ShopContext);
+    const { products, search, showSearch, setSortBy } = useContext(ShopContext);
     const [showFilter, setShowFilter] = useState(false);
     const [filterProducts, setFilterProducts] = useState([]);
     const [category, setCategory] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
-    const [sortType, setSortType] = useState('relevant');
 
     // Funcție pentru toggling categorie
     const toggleCategory = e => {
@@ -26,64 +25,26 @@ const Collection = () => {
         );
     };
 
-    // Funcție pentru sortarea produselor
-    const sortProducts = (products, sortType) => {
-        let sortedProducts = [...products];
-
-        switch (sortType) {
-            case 'low-high':
-                sortedProducts.sort((a, b) => a.price - b.price);
-                break;
-            case 'high-low':
-                sortedProducts.sort((a, b) => b.price - a.price);
-                break;
-            case 'newest':
-                sortedProducts.sort((a, b) => 
-                    new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-                );
-                break;
-            case 'relevant': 
-                sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-                break;
-            default:
-                return products;
-        }
-
-        return sortedProducts;
-    };
-
-    // Aplică filtrarea și sortarea produselor
-    const applyFilter = () => {
-        let productsCopy = [...products];
+    // Aplică filtrarea produselor
+    useEffect(() => {
+        let filtered = [...products];
 
         if (showSearch && search) {
-            productsCopy = productsCopy.filter(item =>
+            filtered = filtered.filter(item =>
                 item.name.toLowerCase().includes(search.toLowerCase())
             );
         }
 
         if (category.length > 0) {
-            productsCopy = productsCopy.filter(item => category.includes(item.category));
+            filtered = filtered.filter(item => category.includes(item.category));
         }
 
         if (subCategory.length > 0) {
-            productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory));
+            filtered = filtered.filter(item => subCategory.includes(item.subCategory));
         }
 
-        // Aplicăm sortarea
-        const sortedProducts = sortProducts(productsCopy, sortType);
-        setFilterProducts(sortedProducts);
-    };
-
-    // Reactualizăm lista de produse filtrate la modificarea filtrelor
-    useEffect(() => {
-        applyFilter();
-    }, [category, subCategory, search, showSearch, products]);
-
-    // Aplicăm sortarea la schimbarea tipului de sortare
-    useEffect(() => {
-        setFilterProducts(prevProducts => sortProducts(prevProducts, sortType));
-    }, [sortType]);
+        setFilterProducts(filtered);
+    }, [products, search, showSearch, category, subCategory]);
 
     return (
         <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
@@ -124,12 +85,12 @@ const Collection = () => {
                 <div className='flex justify-between text-base sm:text-2xl mb-4'>
                     <Title text1={'TOATĂ'} text2={'COLECȚIA'} />
                     {/* Sortare */}
-                    <select onChange={e => setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
+                    <select onChange={e => setSortBy(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
                         <option value="relevant">📌 ┃ Sortați după ...</option>
                         <option value="newest">🆕 ┃ Cele mai noi</option>
                         <option value="low-high">📈 ┃ Preț: Crescător</option>
                         <option value="high-low">📉 ┃ Preț: Descrescător</option>
-                        <option value="relevant">⭐ ┃ Cele mai apreciate</option>
+                        <option value="popular">⭐ ┃ Cele mai apreciate</option>
                     </select>
                 </div>
 
