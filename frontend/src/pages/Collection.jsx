@@ -12,21 +12,21 @@ const Collection = () => {
     const [subCategory, setSubCategory] = useState([]);
     const [sortType, setSortType] = useState('relevant');
 
-    // Funcție de toggling pentru categorii
+    // Funcție pentru toggling categorie
     const toggleCategory = e => {
         setCategory(prev =>
             prev.includes(e.target.value) ? prev.filter(item => item !== e.target.value) : [...prev, e.target.value]
         );
     };
 
-    // Funcție de toggling pentru subcategorii
+    // Funcție pentru toggling subcategorie
     const toggleSubCategory = e => {
         setSubCategory(prev =>
             prev.includes(e.target.value) ? prev.filter(item => item !== e.target.value) : [...prev, e.target.value]
         );
     };
 
-    // Funcție pentru sortare
+    // Funcție pentru sortarea produselor
     const sortProducts = (products, sortType) => {
         let sortedProducts = [...products];
 
@@ -37,10 +37,14 @@ const Collection = () => {
             case 'high-low':
                 sortedProducts.sort((a, b) => b.price - a.price);
                 break;
-            case 'newest': // Sortare după cele mai noi produse
-                sortedProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            case 'newest':
+                sortedProducts.sort((a, b) => 
+                    new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+                );
                 break;
             case 'relevant': 
+                sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                break;
             default:
                 return products;
         }
@@ -48,7 +52,7 @@ const Collection = () => {
         return sortedProducts;
     };
 
-    // Aplică filtrarea produselor
+    // Aplică filtrarea și sortarea produselor
     const applyFilter = () => {
         let productsCopy = [...products];
 
@@ -66,7 +70,7 @@ const Collection = () => {
             productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory));
         }
 
-        // Aplicăm sortarea după filtrare
+        // Aplicăm sortarea
         const sortedProducts = sortProducts(productsCopy, sortType);
         setFilterProducts(sortedProducts);
     };
