@@ -187,9 +187,9 @@ const Collection = () => {
 						onChange={e => setSortType(e.target.value)}
 						className='border-2 border-gray-300 text-sm px-2'
 					>
-						<option value='relavent'>Sortați după: Relevant</option>
-						<option value='low-high'>Sortați după: mic la ridicat</option>
-						<option value='high-low'>Sortați după: de la mare la scăzut</option>
+						<option value='relavent'>⭐ ┃ Relevant</option>
+						<option value='low-high'>📈 ┃ Preț: Crescător</option>
+						<option value='high-low'>📉 ┃ Preț: Descrescător</option>
 					</select>
 				</div>
 
