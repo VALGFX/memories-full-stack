@@ -1,5 +1,6 @@
 import React from "react";
-import { PhoneIcon } from "@heroicons/react/solid"; // Importă icon-ul telefon
+import { PhoneIcon } from "@heroicons/react/24/outline"; 
+
 
 const Header = () => {
   return (
