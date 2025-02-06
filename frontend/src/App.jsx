@@ -23,12 +23,17 @@ import Promotions from './pages/Promotions';
 const App = () => {
   return (
     <Router>
-      <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        {/* Toast Notifications */}
         <ToastContainer position="top-right" autoClose={3000} />
+
+        {/* Header + Navbar */}
+        <Header />
         <Navbar />
         <SearchBar />
-        
-        <main>
+
+        {/* Main Content */}
+        <main className="flex-1 container mx-auto p-4">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/collection" element={<Collection />} />
@@ -41,9 +46,11 @@ const App = () => {
             <Route path="/orders" element={<Orders />} />
             <Route path="/verify" element={<Verify />} />
             <Route path="/promotions" element={<Promotions />} />
+            <Route path="*" element={<h1 className="text-center text-2xl font-bold text-red-500">404 - Pagina Nu Exista</h1>} />
           </Routes>
         </main>
 
+        {/* Footer */}
         <Footer />
       </div>
     </Router>
