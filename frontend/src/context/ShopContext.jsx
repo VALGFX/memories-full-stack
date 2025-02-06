@@ -9,58 +9,65 @@ const ShopContextProvider = (props) => {
   const currency = 'MDL';
   const delivery_fee = 0;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
-  const [token, setToken] = useState('');
-  const [sortBy, setSortBy] = useState('newest'); // Default sort by 'newest'
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [sortBy, setSortBy] = useState('newest'); 
   const navigate = useNavigate();
 
-  // Funcția pentru a obține datele produselor, cu sortare
-  const getProductsData = async (sortBy) => {
-    try {
-      const response = await axios.get(backendUrl + '/api/product/list');
-      if (response.data.success) {
-        let sortedProducts = response.data.products;
+  // ✅ Funcția `addToCart`
+  const addToCart = (productId, quantity = 1) => {
+    setCartItems((prev) => {
+      const newCart = { ...prev };
+      newCart[productId] = (newCart[productId] || 0) + quantity;
+      return newCart;
+    });
 
-        switch (sortBy) {
-          case 'newest':
-            sortedProducts.sort((a, b) => 
-              new Date(b.createdAt || '1970-01-01') - new Date(a.createdAt || '1970-01-01')
-            );
-            break;
-          case 'popular':
-            sortedProducts.sort((a, b) => (b.rating || b.popularity || 0) - (a.rating || a.popularity || 0));
-            break;
-          case 'low-high':
-            sortedProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
-            break;
-          case 'high-low':
-            sortedProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
-            break;
-          default:
-            break;
-        }
+    toast.success("Produs adăugat în coș!");
+  };
+
+  // ✅ Funcția pentru obținerea și sortarea produselor
+  const getProductsData = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/product/list`);
+      if (response.data.success) {
+        let sortedProducts = response.data.products || [];
+
+        sortedProducts = sortedProducts.sort((a, b) => {
+          switch (sortBy) {
+            case 'newest':
+              return new Date(b.createdAt || '1970-01-01') - new Date(a.createdAt || '1970-01-01');
+            case 'popular':
+              return (b.rating || b.popularity || 0) - (a.rating || a.popularity || 0);
+            case 'low-high':
+              return (a.price || 0) - (b.price || 0);
+            case 'high-low':
+              return (b.price || 0) - (a.price || 0);
+            default:
+              return 0;
+          }
+        });
 
         setProducts(sortedProducts);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      console.error("Eroare la obținerea produselor:", error);
+      toast.error("Eroare la obținerea produselor!");
     }
   };
 
+  // 🔄 Reîncărcăm produsele când `sortBy` se schimbă
   useEffect(() => {
-    getProductsData(sortBy); // Reîncarcă produsele când schimbăm tipul de sortare
+    getProductsData();
   }, [sortBy]);
 
+  // 🔄 Reîncărcăm coșul când avem un token
   useEffect(() => {
-    if (!token && localStorage.getItem('token')) {
-      setToken(localStorage.getItem('token'));
-    }
     if (token) {
       getUserCart(token);
     }
@@ -81,14 +88,10 @@ const ShopContextProvider = (props) => {
     backendUrl,
     setToken,
     token,
-    setSortBy, // Adăugat pentru a putea schimba tipul de sortare
+    setSortBy,
   };
 
-  return (
-    <ShopContext.Provider value={value}>
-      {props.children}
-    </ShopContext.Provider>
-  );
+  return <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>;
 };
 
 export default ShopContextProvider;
