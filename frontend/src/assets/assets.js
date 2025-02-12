@@ -1,13 +1,16 @@
 // src/assets/index.js
 import about_img from './about_img.jpg'
 import bin_icon from './bin_icon.png'
+import cart_icon_2 from './cart.png'
 import cart_icon from './cart_icon.png'
+import christmas_img from './christmas_img.png'
 import contact_img from './contact_img.png'
 import cross_icon from './cross_icon.png'
 import dropdown_icon from './dropdown_icon.png'
 import exchange_icon from './exchange_icon.png'
 import hero_img from './hero_img.mp4'
 import logo from './logo.png'
+import logo_img from './logo_img.png'
 import menu_icon from './menu_icon.png'
 import profile_icon from './profile_icon.png'
 import quality_icon from './quality_icon.png'
@@ -18,7 +21,7 @@ import star_icon from './star_icon.png'
 import stripe_logo from './stripe_logo.png'
 import student_img from './student_img.jpg'
 import support_img from './support_img.png'
-import christmas_img from './christmas_img.png'
+import phone_icon from './Vector.png'
 
 // Import product images
 import p_img1 from './p_img1.png'
@@ -41,6 +44,9 @@ import p_img8 from './p_img8.png'
 import p_img9 from './p_img9.png'
 
 export const assets = {
+	logo_img,
+	cart_icon_2,
+	phone_icon,
 	logo,
 	hero_img,
 	cart_icon,
