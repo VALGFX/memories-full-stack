@@ -1,24 +1,22 @@
-import React from 'react'
-import PromotionCard from '../components/PromotionCard'
+import React, { useContext } from 'react'
+import ProductCard from './ProductCard'
+import { ShopContext } from '../context/ShopContext'
 
-const PromotionsList = () => {
-	// Lista de promoții este goală momentan
-	const promotions = []
+const ProductList = () => {
+	const { products } = useContext(ShopContext)
 
 	return (
-		<div className='grid gap-8 grid-cols-1'>
-			{/* Dacă nu există promoții, afișăm un mesaj */}
-			{promotions.length === 0 ? (
-				<p className='text-center text-gray-500'>
-					Momentan nu sunt promoții disponibile.
-				</p>
-			) : (
-				promotions.map(promotion => (
-					<PromotionCard key={promotion.id} promotion={promotion} />
-				))
-			)}
+		<div className='container mx-auto px-4'>
+			<h2 className='text-3xl font-bold text-center my-6'>Produsele Noastre</h2>
+
+			{/* Grid cu 20px spațiere între produse */}
+			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
+				{products.map((product) => (
+					<ProductCard key={product.id} {...product} />
+				))}
+			</div>
 		</div>
 	)
 }
 
-export default PromotionsList
+export default ProductList
