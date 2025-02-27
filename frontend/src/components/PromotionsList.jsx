@@ -6,7 +6,7 @@ const PromotionsList = () => {
 	const promotions = [
 		{
 			id: 1,
-			name: 'STUDENT & ÎNCREDERE',
+			name: '*Magia Zilei de 8 Martie',
 			startDate: new Date('2025-03-08T00:00:00'), // Folosește startDate în loc de endDate
 			image: assets.spring_img,
 		},
