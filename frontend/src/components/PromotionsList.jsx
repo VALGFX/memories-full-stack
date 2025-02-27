@@ -1,22 +1,26 @@
-import React, { useContext } from 'react'
-import ProductCard from './ProductCard'
-import { ShopContext } from '../context/ShopContext'
+import React from 'react'
+import { assets } from '../assets/assets'
+import PromotionCard from '../components/PromotionCard'
 
-const ProductList = () => {
-	const { products } = useContext(ShopContext)
+const PromotionsList = () => {
+	const promotions = [
+		{
+			id: 1,
+			name: ' STUDENT & ÎNCREDERE',
+			endDate: new Date('2025-10-8T00:00:00'),
+			image: assets.spring_img,
+		},
+	]
 
 	return (
-		<div className='container mx-auto px-4'>
-			<h2 className='text-3xl font-bold text-center my-6'>Produsele Noastre</h2>
-
-			{/* Grid cu 20px spațiere între produse */}
-			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-				{products.map((product) => (
-					<ProductCard key={product.id} {...product} />
-				))}
-			</div>
+		<div className='grid gap-8 grid-cols-1'>
+			{' '}
+			{/* Asigurăm o coloană per rând */}
+			{promotions.map(promotion => (
+				<PromotionCard key={promotion.id} promotion={promotion} />
+			))}
 		</div>
 	)
 }
 
-export default ProductList
+export default PromotionsList
