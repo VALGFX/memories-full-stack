@@ -4,6 +4,7 @@ import bin_icon from './bin_icon.png'
 import cart_icon_2 from './cart.png'
 import cart_icon from './cart_icon.png'
 import christmas_img from './christmas_img.png'
+import close_icon from './close_icon.png'
 import contact_img from './contact_img.png'
 import cross_icon from './cross_icon.png'
 import dropdown_icon from './dropdown_icon.png'
@@ -16,6 +17,7 @@ import profile_icon from './profile_icon.png'
 import quality_icon from './quality_icon.png'
 import razorpay_logo from './razorpay_logo.png'
 import search_icon from './search_icon.png'
+import spring_img from './spring_img.png'
 import star_dull_icon from './star_dull_icon.png'
 import star_icon from './star_icon.png'
 import stripe_logo from './stripe_logo.png'
@@ -44,6 +46,7 @@ import p_img8 from './p_img8.png'
 import p_img9 from './p_img9.png'
 
 export const assets = {
+	close_icon,
 	logo_img,
 	cart_icon_2,
 	phone_icon,
@@ -66,6 +69,7 @@ export const assets = {
 	stripe_logo,
 	cross_icon,
 	student_img,
+	spring_img,
 	christmas_img,
 }
 
