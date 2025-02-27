@@ -7,19 +7,22 @@ const ProductCard = ({ id, image, name, price }) => {
 	const { currency, addToCart } = useContext(ShopContext)
 
 	const handleAddToCart = () => {
-		const size = '50 ml' // Dimensiunea implicită
+		const size = '50 ml' // Dimensiune implicită
 		addToCart(id, size)
 	}
 
 	return (
 		<div
-			className='relative bg-white shadow-lg rounded-xl p-5 flex flex-col items-center 
-			transition-transform duration-300 hover:shadow-2xl hover:scale-105 
-			w-full sm:w-64 md:w-72 lg:w-80 h-auto mb-5' // Adaugă spațiere între carduri
+			className='w-full max-w-xs sm:max-w-sm md:max-w-xs lg:max-w-sm bg-white shadow-md rounded-xl p-4 sm:p-5 flex flex-col items-center 
+		transition-transform duration-300 hover:shadow-2xl hover:scale-[1.03]'
 		>
 			{/* Imaginea produsului */}
-			<Link to={`/product/${id}`} onClick={() => scrollTo(0, 0)}>
-				<div className='flex items-center justify-center overflow-hidden rounded-xl w-full sm:w-48 md:w-56 lg:w-64 h-40 sm:h-44 md:h-52'>
+			<Link
+				to={`/product/${id}`}
+				onClick={() => scrollTo(0, 0)}
+				className='w-full flex justify-center'
+			>
+				<div className='relative overflow-hidden rounded-xl w-full h-40 sm:h-48 md:h-56'>
 					<img
 						src={image[0]}
 						alt={name}
@@ -30,21 +33,31 @@ const ProductCard = ({ id, image, name, price }) => {
 
 			{/* Detalii produs */}
 			<div className='w-full text-center mt-4'>
-				<p className='text-lg sm:text-xl font-semibold text-gray-800 mb-2 break-words'>{name}</p>
+				<p className='text-md sm:text-lg md:text-xl font-semibold text-gray-800 line-clamp-2'>
+					{name}
+				</p>
 			</div>
 
-			{/* Prețul și butonul de adăugare în coș */}
+			{/* Preț și buton de adăugare în coș */}
 			<div className='w-full flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-5 mt-4'>
-				{/* Prețul */}
+				{/* Preț */}
 				<div className='border-2 border-gray-300 rounded-lg px-6 py-2'>
-					<p className='text-md sm:text-lg font-medium text-black'>{price} {currency}</p>
+					<p className='text-sm sm:text-lg font-medium text-black'>
+						{price} {currency}
+					</p>
 				</div>
-				{/* Butonul de adăugare în coș */}
+
+				{/* Buton Adaugă în coș */}
 				<button
 					onClick={handleAddToCart}
-					className='flex items-center justify-center w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-black text-white transition-transform duration-300 hover:scale-110'
+					className='flex items-center justify-center w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-black text-white 
+					transition-transform duration-300 hover:scale-110 shadow-md'
 				>
-					<img src={assets.cart_icon_2} className='w-5 sm:w-6' alt='Add to cart' />
+					<img
+						src={assets.cart_icon_2}
+						className='w-5 sm:w-6'
+						alt='Add to cart'
+					/>
 				</button>
 			</div>
 		</div>
