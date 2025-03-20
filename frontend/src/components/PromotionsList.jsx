@@ -12,7 +12,7 @@ const PromotionsList = () => {
 			id: 2,
 			name: '*Magia Zilei de primavara',
 			startDate: new Date('2025-04-01T00:00:00'), // Folosește startDate în loc de endDate
-			image: assets.spring_imgs,
+			image: assets.springs_img,
 		},
 	]
 
