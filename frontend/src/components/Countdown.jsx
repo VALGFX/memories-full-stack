@@ -36,7 +36,7 @@ const Countdown = ({ endDate }) => {
 					<TimeBox label='Secunde' value={timeLeft.seconds} />
 				</>
 			) : (
-				<span>Promoția a expirat!</span>
+				<span>Promoția a început!</span>
 			)}
 		</div>
 	)
