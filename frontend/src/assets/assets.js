@@ -24,7 +24,7 @@ import stripe_logo from './stripe_logo.png'
 import student_img from './student_img.jpg'
 import support_img from './support_img.png'
 import phone_icon from './Vector.png'
-import spring_imgs from './IMG_9543.png'
+import spring_imgs from './springs_img.png'
 
 // Import product images
 import p_img1 from './p_img1.png'
