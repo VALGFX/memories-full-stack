@@ -14,7 +14,7 @@ const PromotionCard = ({ promotion }) => {
 			</div>
 
 			{/* Imaginea promoției - Dreapta */}
-			<div className='relative md:w-1/2 h-56 md:h-[514px]'>
+			<div className='relative md:w-auto h-56 md:h-[514px]'>
 				<img
 					src={promotion.image}
 					alt={promotion.name}
